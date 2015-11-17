@@ -95,3 +95,5 @@ time.sleep(sleep)
 sense.show_message("Pressure:", text_colour=blue, scroll_speed=speed)
 sense.show_message(str(pressure), text_colour=blue, scroll_speed=speed)
 sense.show_message("mbar", text_colour=blue, scroll_speed=speed)
+
+sense.clear()

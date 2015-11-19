@@ -13,3 +13,7 @@ British ESA astronaut [Tim Peake](https://twitter.com/astro_timpeake) is going t
 The Sense HAT is the hardware attachment board mounted to the Rasberry Pi's on the ISS, and is available to the public through several avenues; [Pimoroni](https://shop.pimoroni.com/products/raspberry-pi-sense-hat), [Raspberry Pi Foundation Swag Store](http://swag.raspberrypi.org/products/raspberry-pi-sense-hat), [Newark/Element 14](http://www.newark.com/raspberry-pi/raspberrypi-sensehat/add-on-board-attiny88-astro-pi/dp/49Y7569), and [MCM Electronics](http://www.mcmelectronics.com/product/RASPBERRY-PI-2483095-/83-16980)
 
 The Raspberry Pi Foundation have created a [Python API](https://pypi.python.org/pypi/sense-hat) to provide access to the board's LED matrix and sensors. See the documentation at [pythonhosted.org/sense-hat](http://pythonhosted.org/sense-hat/)
+
+## What I'd Like to Accomplish
+
+Daring to dream...

@@ -14,6 +14,15 @@ The Sense HAT is the hardware attachment board mounted to the Rasberry Pi's on t
 
 The Raspberry Pi Foundation have created a [Python API](https://pypi.python.org/pypi/sense-hat) to provide access to the board's LED matrix and sensors. See the documentation at [pythonhosted.org/sense-hat](http://pythonhosted.org/sense-hat/)
 
-## What I'd Like to Accomplish
+## What I'd Like to Accomplish: `Daring to Dream`
 
-Daring to dream...
+There are several avenues that I'd like to pursue with the Raspberry Pi/Sense HAT/Python combo at some point:
+
+* Creating a Raspberry Pi weather station using the Sense HAT `Temperature` `Humidity` & `Pressure` sensors
+* Using the `gyroscope` `accelerometer` & `magnetometer` of the Sense HAT's `IMU` (Intertial Measurement Unit) to control the movement of an actual physical object like a [Sphero](http://www.sphero.com/sphero), (or Sphero's new [BB-8](http://www.sphero.com/starwars)) as seen in this [YouTube video](https://www.youtube.com/watch?v=VHCP5A5jM4o)
+* Again, using the Sense HAT's IMU to control movement, but this time, to control the movement of something like the `text scroll` of the Sense HAT matrix or the movement of the `squirrel` in Al Sweigart's [Squirrel Eat Squirrel](https://inventwithpython.com/pygame/chapter8.html) game
+* Creating some sort of OpenCV project using the Raspberry Pi [Camera Module](https://www.raspberrypi.org/products/camera-module/) and `who knows?`
+
+## Current Focus
+
+Right now I'm working on using the Sense HAT's `IMU` to control the `pitch` `roll` & `yaw` of a 3D object (of my own creation or, at least, choosing) much like Serge Schneider's [Apollo-Soyuz demo.](https://github.com/astro-pi/apollo-soyuz)  It looks like I will need both a `.obj` file and a `.mtl` file to replace the Apollo-Soyuz model. 

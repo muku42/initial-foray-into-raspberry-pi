@@ -43,16 +43,15 @@
 
 import time
 from sense_hat import SenseHat
-'''
+
 # Celscius to Fahrenheit
 def c_to_f (t):
     result = (9.0/5.0) * t + 32
     return result
-'''
+
 sense = SenseHat()
 sense.clear() # clear the 8x8 matrix
 
-'''
 tempC = sense.get_temperature()
 tempC = round(tempC, 1)
 tempF = c_to_f(tempC) # conversion from Celsius to Fahrenheit
@@ -103,8 +102,8 @@ sense.show_message(str(pressure), text_colour=blue, scroll_speed=speed)
 sense.show_message("mbar", text_colour=blue, scroll_speed=speed)
 
 sense.clear()
-'''
-time.sleep(2)
+
+time.sleep(sleep)
 
 #from sense_hat import SenseHat
 import math #MOVE TO IMPORTS AT TOP

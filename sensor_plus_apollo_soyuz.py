@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # sensor_plus_apollo_soyuz.py
 # Copyright (C) 2015 David L. Bennett <db42@hawaii.edu>
 # for CS294: Python, Fall 2015, University of Hawaii at Hilo
@@ -41,137 +39,138 @@
 ##
 ###############
 
+#!/usr/bin/python
+
 import time
 import math
 import pi3d
 from sense_hat import SenseHat
 
 # Celscius to Fahrenheit
-def c_to_f (t):
+def c_to_f(t):
     result = (9.0/5.0) * t + 32
     return result
 
-sense = SenseHat()
-sense.clear() # clear the 8x8 matrix
+def sensors():
+    sense = SenseHat()
 
-tempC = sense.get_temperature()
-tempC = round(tempC, 1)
-tempF = c_to_f(tempC) # conversion from Celsius to Fahrenheit
-tempF = round(tempF, 1)
+    tempC = sense.get_temperature() # obtains temperature in Celsius from sensor
+    tempC = round(tempC, 1)
+    tempF = c_to_f(tempC) # conversion from Celsius to Fahrenheit
+    tempF = round(tempF, 1)
 
-print "The temperature at the Sense Hat is", tempC, "C or", tempF, "F"
+    print "The temperature at the Sense Hat is", tempC, "C or", tempF, "F"
 
-sense.clear()
+    humidity = sense.get_humidity()
+    humidity = round(humidity, 1)
 
-humidity = sense.get_humidity()
-humidity = round(humidity, 1)
+    print "The relative humidity at the Sense Hat is", humidity, "%"
 
-print "The relative humidity at the Sense Hat is", humidity, "%"
+    pressure = sense.get_pressure()
+    pressure = round(pressure, 1)
 
-sense.clear()
+    print "The atmospheric pressure at the Sense Hat is", pressure, "mbar"
 
-pressure = sense.get_pressure()
-pressure = round(pressure, 1)
+    # outputing the temp, humidity, and pressure to the matrix
+    sense.clear() # clear the 8x8 matrix
+    sense.set_rotation(0) # sets orientation of Sense Hat matrix
 
-print "The atmospheric pressure at the Sense Hat is", pressure, "mbar"
+    # setting colors for the scrolling text on the matrix
+    red = (255, 0, 0)
+    green = (0, 255, 0)
+    blue = (0, 0, 255)
 
-# outputing the temp, humidity, and pressure to the matrix
+    speed = (0.06) # speed of text scroll (0.10 is default)
+    sleep = (0.6) # time of pause in seconds
 
-sense.clear()
-sense.set_rotation(0) # sets orientation of Sense Hat matrix
+    sense.show_message("Temp:", text_colour=red, scroll_speed=speed)
+    sense.show_message(str(tempC), text_colour=red, scroll_speed=speed)
+    sense.show_message("C", text_colour=red, scroll_speed=speed)
+    sense.show_message("or", text_colour=red, scroll_speed=speed)
+    sense.show_message(str(tempF), text_colour=red, scroll_speed=speed)
+    sense.show_message("F", text_colour=red, scroll_speed=speed)
+    time.sleep(sleep)
+    sense.show_message("Humidity:", text_colour=green, scroll_speed=speed)
+    sense.show_message(str(humidity), text_colour=green, scroll_speed=speed)
+    sense.show_message("%", text_colour=green, scroll_speed=speed)
+    time.sleep(sleep)
+    sense.show_message("Pressure:", text_colour=blue, scroll_speed=speed)
+    sense.show_message(str(pressure), text_colour=blue, scroll_speed=speed)
+    sense.show_message("mbar", text_colour=blue, scroll_speed=speed)
 
-# setting colors for the scrolling text on the matrix
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
+    sense.clear()
 
-speed = (0.06) # speed of text scroll (0.10 is default)
-sleep = (0.6) # time of break in seconds
+def pi3d_model():
 
-sense.show_message("Temp:", text_colour=red, scroll_speed=speed)
-sense.show_message(str(tempC), text_colour=red, scroll_speed=speed)
-sense.show_message("C", text_colour=red, scroll_speed=speed)
-sense.show_message("or", text_colour=red, scroll_speed=speed)
-sense.show_message(str(tempF), text_colour=red, scroll_speed=speed)
-sense.show_message("F", text_colour=red, scroll_speed=speed)
-time.sleep(sleep)
-sense.show_message("Humidity:", text_colour=green, scroll_speed=speed)
-sense.show_message(str(humidity), text_colour=green, scroll_speed=speed)
-sense.show_message("%", text_colour=green, scroll_speed=speed)
-time.sleep(sleep)
-sense.show_message("Pressure:", text_colour=blue, scroll_speed=speed)
-sense.show_message(str(pressure), text_colour=blue, scroll_speed=speed)
-sense.show_message("mbar", text_colour=blue, scroll_speed=speed)
+    display = pi3d.Display.create()
+    cam = pi3d.Camera.instance()
 
-sense.clear()
+    shader = pi3d.Shader("mat_light")
 
-time.sleep(sleep)
+    model = pi3d.Model(
+        file_string="apollo-soyuz.obj",
+        name="model", x=0, y=-1, z=40, sx=1.75, sy=1.75, sz=1.75)
 
-display = pi3d.Display.create()
-cam = pi3d.Camera.instance()
+    model.set_shader(shader)
 
-shader = pi3d.Shader("mat_light")
+    cam.position((0, 20, 0))
+    cam.point_at((0, -1, 40))
+    keyb = pi3d.Keyboard()
 
-model = pi3d.Model(
-    file_string="apollo-soyuz.obj",
-    name="model", x=0, y=-1, z=40, sx=1.75, sy=1.75, sz=1.75)
+    compass = gyro = accel = True
+    sense.set_imu_config(compass, gyro, accel)
 
-model.set_shader(shader)
+    yaw_offset = 72
 
-cam.position((0, 20, 0))
-cam.point_at((0, -1, 40))
-keyb = pi3d.Keyboard()
+    while display.loop_running():
+        orientation = sense.get_orientation_radians()
+        if orientation is None:
+            pass
 
-compass = gyro = accel = True
-sense.set_imu_config(compass, gyro, accel)
+        pitch = orientation["pitch"]
+        roll = orientation["roll"]
+        yaw = orientation["yaw"]
 
-yaw_offset = 72
+        yaw_total = yaw + math.radians(yaw_offset)
 
-while display.loop_running():
-    o = sense.get_orientation_radians()
-    if o is None:
-        pass
+        sin_y = math.sin(yaw_total)
+        cos_y = math.cos(yaw_total)
 
-    pitch = o["pitch"]
-    roll = o["roll"]
-    yaw = o["yaw"]
+        sin_p = math.sin(pitch)
+        cos_p = math.cos(pitch)
 
-    yaw_total = yaw + math.radians(yaw_offset)
+        sin_r = math.sin(roll)
+        cos_r = math.cos(roll)
 
-    sin_y = math.sin(yaw_total)
-    cos_y = math.cos(yaw_total)
+        abs_roll = math.degrees(math.asin(sin_p * cos_y + cos_p * sin_r * sin_y))
+        abs_pitch = math.degrees(math.asin(sin_p * sin_y - cos_p * sin_r * cos_y))
 
-    sin_p = math.sin(pitch)
-    cos_p = math.cos(pitch)
+        model.rotateToZ(abs_roll)
+        model.rotateToX(abs_pitch)
+        model.rotateToY(math.degrees(yaw_total))
+        model.draw()
 
-    sin_r = math.sin(roll)
-    cos_r = math.cos(roll)
+        keypress = keyb.read()
 
-    abs_roll = math.degrees(math.asin(sin_p * cos_y + cos_p * sin_r * sin_y))
-    abs_pitch = math.degrees(math.asin(sin_p * sin_y - cos_p * sin_r * cos_y))
+        if keypress == 27:
+            keyb.close()
+            display.destroy()
+            break
+        elif keypress == ord('m'):
+            compass = not compass
+            sense.set_imu_config(compass, gyro, accel)
+        elif keypress == ord('g'):
+            gyro = not gyro
+            sense.set_imu_config(compass, gyro, accel)
+        elif keypress == ord('a'):
+            accel = not accel
+            sense.set_imu_config(compass, gyro, accel)
+        elif keypress == ord('='):
+            yaw_offset += 1
+        elif keypress == ord('-'):
+            yaw_offset -= 1
 
-    model.rotateToZ(abs_roll)
-    model.rotateToX(abs_pitch)
-    model.rotateToY(math.degrees(yaw_total))
-    model.draw()
 
-    keypress = keyb.read()
-
-    if keypress == 27:
-        keyb.close()
-        display.destroy()
-        break
-    elif keypress == ord('m'):
-        compass = not compass
-        sense.set_imu_config(compass, gyro, accel)
-    elif keypress == ord('g'):
-        gyro = not gyro
-        sense.set_imu_config(compass, gyro, accel)
-    elif keypress == ord('a'):
-        accel = not accel
-        sense.set_imu_config(compass, gyro, accel)
-    elif keypress == ord('='):
-        yaw_offset += 1
-    elif keypress == ord('-'):
-        yaw_offset -= 1
-
+sensors()
+time.sleep(1)
+pi3d_model()

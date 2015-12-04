@@ -42,9 +42,6 @@
 #!/usr/bin/python
 
 import time
-import math
-import pi3d
-from sense_hat import SenseHat
 
 # Celscius to Fahrenheit
 def c_to_f(t):
@@ -52,6 +49,9 @@ def c_to_f(t):
     return result
 
 def sensors():
+
+    from sense_hat import SenseHat
+
     sense = SenseHat()
 
     tempC = sense.get_temperature() # obtains temperature in Celsius from sensor
@@ -100,7 +100,11 @@ def sensors():
 
     sense.clear()
 
+
 def pi3d_model():
+
+    import math
+    import pi3d
 
     display = pi3d.Display.create()
     cam = pi3d.Camera.instance()
@@ -123,13 +127,13 @@ def pi3d_model():
     yaw_offset = 72
 
     while display.loop_running():
-        orientation = sense.get_orientation_radians()
-        if orientation is None:
+        o = sense.get_orientation_radians()
+        if o is None:
             pass
 
-        pitch = orientation["pitch"]
-        roll = orientation["roll"]
-        yaw = orientation["yaw"]
+        pitch = o["pitch"]
+        roll = o["roll"]
+        yaw = o["yaw"]
 
         yaw_total = yaw + math.radians(yaw_offset)
 

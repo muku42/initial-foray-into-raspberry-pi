@@ -100,7 +100,6 @@ def sensors():
 
     sense.clear()
 
-
 def pi3d_model():
 
     import math
@@ -174,7 +173,13 @@ def pi3d_model():
         elif keypress == ord('-'):
             yaw_offset -= 1
 
+def main():
+    sensors()
+    time.sleep(1)
+    import pdb
+    pdb.set_trace()
+    pi3d_model()
 
-sensors()
-time.sleep(1)
-pi3d_model()
+
+if __name__ == '__main__':
+    main()

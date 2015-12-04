@@ -28,7 +28,7 @@
 ## Readings for temperature, relative humidity, and atmospheric pressure
 ## are taken and displayed via the terminal as well as the Sense Hat's
 ## 8x8 LED matrix.  Please keep in mind that the readings are taken directly
-## at the Sense Hat.  Temperature for instance will be quite a bit higher than  
+## at the Sense Hat.  Temperature for instance will be quite a bit higher than 
 ## the actual 'room' temperature because the Sense Hat is registering the heat
 ## produced by the Raspberry Pi itself.  Future setup will involve an extended
 ## female-to-male 40-pin GPIO connector to reduce the influence of the 
@@ -42,6 +42,8 @@
 ###############
 
 import time
+import math
+import pi3d
 from sense_hat import SenseHat
 
 # Celscius to Fahrenheit
@@ -104,12 +106,6 @@ sense.show_message("mbar", text_colour=blue, scroll_speed=speed)
 sense.clear()
 
 time.sleep(sleep)
-
-#from sense_hat import SenseHat
-import math #MOVE TO IMPORTS AT TOP
-import pi3d #MOVE TO IMPORTS AT TOP
-
-#sense = SenseHat()
 
 display = pi3d.Display.create()
 cam = pi3d.Camera.instance()

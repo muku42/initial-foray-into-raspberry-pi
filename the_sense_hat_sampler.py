@@ -1,4 +1,4 @@
-# sensor_plus_apollo_soyuz.py
+# the_sense_hat_sampler.py
 # Copyright (C) 2015 David L. Bennett <db42@hawaii.edu>
 # for CS294: Python, Fall 2015, University of Hawaii at Hilo
 #
@@ -81,8 +81,8 @@ def sensors():
     green = (0, 255, 0)
     blue = (0, 0, 255)
 
-    speed = (0.02) # speed of text scroll (0.10 is default)
-    sleep = (0.2) # time of pause in seconds
+    speed = (0.06) # speed of text scroll (0.10 is default)
+    sleep = (0.5) # time of pause in seconds
 
     sense.show_message("Temp:", text_colour=red, scroll_speed=speed)
     sense.show_message(str(tempC), text_colour=red, scroll_speed=speed)
@@ -129,7 +129,7 @@ def pi3d_model():
     compass = gyro = accel = True
     sense.set_imu_config(compass, gyro, accel)
 
-    yaw_offset = 72
+    yaw_offset = 133
 
     while display.loop_running():
         orientation = sense.get_orientation_radians()

@@ -72,7 +72,6 @@ def sensors():
 
     print "The atmospheric pressure at the Sense Hat is", pressure, "mbar\n"
 
-    # outputing the temp, humidity, and pressure to the matrix
     sense.clear() # clear the 8x8 matrix
     sense.set_rotation(0) # sets orientation of Sense Hat matrix
 
@@ -81,9 +80,10 @@ def sensors():
     green = (0, 255, 0)
     blue = (0, 0, 255)
 
-    speed = (0.06) # speed of text scroll (0.10 is default)
+    speed = (0.02) # speed of text scroll (0.10 is default)
     sleep = (0.5) # time of pause in seconds
 
+    # displaying the temp, humidity, and pressure on the matrix 
     sense.show_message("Temp:", text_colour=red, scroll_speed=speed)
     sense.show_message(str(tempC), text_colour=red, scroll_speed=speed)
     sense.show_message("C", text_colour=red, scroll_speed=speed)
@@ -116,6 +116,7 @@ def pi3d_model():
 
     shader = pi3d.Shader("mat_light")
 
+    # .obj file is read in and x,y,z size(s) are determined
     model = pi3d.Model(
         file_string="apollo-soyuz.obj",
         name="model", x=0, y=-1, z=40, sx=1.5, sy=1.5, sz=1.5)
@@ -129,7 +130,7 @@ def pi3d_model():
     compass = gyro = accel = True
     sense.set_imu_config(compass, gyro, accel)
 
-    yaw_offset = 133
+    yaw_offset = 133 # This offset aligns the model with the Pi
 
     while display.loop_running():
         orientation = sense.get_orientation_radians()
@@ -142,6 +143,7 @@ def pi3d_model():
 
         yaw_total = yaw + math.radians(yaw_offset)
 
+        # Maths!
         sin_y = math.sin(yaw_total)
         cos_y = math.cos(yaw_total)
 
@@ -165,26 +167,24 @@ def pi3d_model():
             keyb.close()
             display.destroy()
             break
-        elif keypress == ord('m'):
+        elif keypress == ord('m'): # Toggles Magnetometer
             compass = not compass
             sense.set_imu_config(compass, gyro, accel)
-        elif keypress == ord('g'):
+        elif keypress == ord('g'): # Toggles Gyroscope
             gyro = not gyro
             sense.set_imu_config(compass, gyro, accel)
-        elif keypress == ord('a'):
+        elif keypress == ord('a'): # Toggles Accelerometer
             accel = not accel
             sense.set_imu_config(compass, gyro, accel)
-        elif keypress == ord('='):
+        elif keypress == ord('='): # Increases yaw offset
             yaw_offset += 1
-        elif keypress == ord('-'):
+        elif keypress == ord('-'): # Decreases yaw offset
             yaw_offset -= 1
-
+         
 
 def main():
     sensors()
     time.sleep(1)
-    # import pdb
-    # pdb.set_trace()
     pi3d_model()
 
 

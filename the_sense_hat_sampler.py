@@ -43,7 +43,7 @@
 
 import time
 
-# Celscius to Fahrenheit
+# Celsius to Fahrenheit
 def c_to_f(t):
     result = (9.0/5.0) * t + 32
     return result
@@ -80,7 +80,7 @@ def sensors():
     green = (0, 255, 0)
     blue = (0, 0, 255)
 
-    speed = (0.02) # speed of text scroll (0.10 is default)
+    speed = (0.06) # speed of text scroll (0.10 is default)
     sleep = (0.5) # time of pause in seconds
 
     # displaying the temp, humidity, and pressure on the matrix 
